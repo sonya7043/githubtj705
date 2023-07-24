@@ -1,0 +1,114 @@
+server:
+  port: 8000
+  
+spring:
+  application:
+    name: apigateway-service
+    
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedHeaders: '*'
+            allow-credentials: true
+            allowedMethods: POST, GET, PUT, DELETE
+            
+      routes:
+      
+        # 유저 엑츄에이터
+      - id: user-service
+        uri: lb://USER-SERVICE
+        predicates:
+        - Path=/user-service/actuator/**
+        - Method=GET, POST
+        filters:
+        - RemoveRequestHeader=Cookie
+        - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+      
+        # 오더 서비스
+      - id: order-service
+        uri: lb://ORDER-SERVICE
+        predicates:
+        - Path=/order-service/** 
+        - Method=GET, POST, PUT, DELETE
+        
+        # 카탈로그 서비스
+      - id: catalog-service
+        uri: lb://CATALOG-SERVICE
+        predicates:
+        - Path=/catalog-service/** 
+        - Method=GET, POST, PUT, DELETE
+
+        # 보드 서비스
+      - id: board-service
+        uri: lb://BOARD-SERVICE
+        predicates:
+        - Path=/board-service/** 
+        - Method=GET, POST, PUT, DELETE
+        
+        # 카테고리 서비스
+      - id: category-service
+        uri: lb://CATEGORY-SERVICE
+        predicates:
+        - Path=/category-service/** 
+        - Method=GET, POST, PUT, DELETE
+        
+        # 회원가입(유저)
+      - id: user-service 
+        uri: lb://USER-SERVICE 
+        predicates:
+        - Path=/user-service/insert
+        - Method=POST
+        
+        # 로그인(유저)
+      - id: user-service 
+        uri: lb://USER-SERVICE 
+        predicates:
+        - Path=/user-service/login 
+        - Method=POST
+      
+        # 헬스체크(유저)
+      - id: user-service 
+        uri: lb://USER-SERVICE 
+        predicates:
+        - Path=/user-service/health_check
+        - Method=GET
+        
+        # 테스트 회원등록(유저)
+      - id: user-service 
+        uri: lb://USER-SERVICE 
+        predicates:
+        - Path=/user-service/test-insert
+        - Method=POST
+        
+        # 유저 서비스
+      - id: user-service 
+        uri: lb://USER-SERVICE 
+        predicates:
+        - Path=/user-service/**   
+        - Method=GET, POST, PUT, DELETE
+        filters:
+        - name: AuthorizationFilter
+      
+      
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true 
+    fetch-registry: true 
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
+
+data:
+  SECRET_KEY: tj705team

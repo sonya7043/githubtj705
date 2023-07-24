@@ -1,0 +1,17 @@
+server:
+  port: 8761 #포트번호 등록
+  
+spring:
+  application:
+    name: discoveryservice #서비스명 등록
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+       
+eureka:
+  client:
+    register-with-eureka: false #디스커버리서버에 등록 안함
+    fetch-registry: false #유레카서버(디스커버리서버)로부터 다른 인스턴스(서비스)의 정보를 가져와서 갱신하지 않음
+
+data:
+  SECRET_KEY: tj705team    

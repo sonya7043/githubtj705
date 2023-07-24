@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "data.SECRETE_-kEY",
+    "type": "java.lang.String",
+    "description": "A description for 'data.SECRETE_-kEY'"
+  },
+  {
+    "name": "data.SECRET_KEY",
+    "type": "java.lang.String",
+    "description": "A description for 'data.SECRET_KEY'"
+  }
+]}

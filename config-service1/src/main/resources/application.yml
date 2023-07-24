@@ -1,0 +1,14 @@
+server:
+  port: 8888
+  
+spring:
+  cloud:
+    config:
+      server:
+       git:
+         uri: https://github.com/sonya7043/git-repo.git # shop.yml 파일이 들어있는 git 주소로 변경.(data.SECRET_KEY가 들어있음)
+  application:
+    name: config-service
+    
+data:
+  SECRET_KEY: tj705team
